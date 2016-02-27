@@ -94,6 +94,38 @@ public class LinkedList {
 		return this;
 	}
 	
+	
+	public boolean hasCycle() { //Floyd's cycle detection at play
+		
+		if(head.getClass() == null)
+			return false;
+		
+		Node slow =head,fast = head;
+		
+		while(true){
+			
+			//Hop-1
+			slow = slow.getNext();
+			
+			//Hop-2
+			if(fast.getNext()!=null)
+				fast = fast.getNext().getNext();
+			else
+				return false;
+			
+			if( slow == null || fast == null)
+				return false;
+			
+			if(slow==fast)
+				return true;
+		}
+		
+	}
+	
+	public void messup(){ //Devil method to create a cycle inside linked-list
+		head.getNext().getNext().getNext().getNext().setNext(head.getNext());
+	}
+	
 	public static void main(String[] args) {
 		LinkedList list = new LinkedList();
 		list.printList(); System.out.println("\n");
@@ -127,7 +159,13 @@ public class LinkedList {
 		list.printList(); System.out.println("\n");
 		
 		list.reverse().add("grapes").reverse();
-		list.printList(); System.out.println("\n");	
+		list.printList(); System.out.println("\n CYCLE = " + list.hasCycle());	
+		
+		//Mess-up the List now for cycle detection later
+		list.messup();
+		System.out.println("\n CYCLE = " + list.hasCycle());	
+		
+		
 	}
 	
 }
